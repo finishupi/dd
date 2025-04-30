@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Te Amo ❤️</title>
+  <style>
+    body {
+      margin: 0;
+      background: #fff0e6;
+      color: #4b0082;
+      font-family: 'Arial', sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      overflow: hidden;
+    }
+
+    .container {
+      text-align: center;
+      cursor: pointer;
+    }
+
+    .typing {
+      font-size: 3rem;
+      font-weight: bold;
+      white-space: nowrap;
+      overflow: hidden;
+      border-right: 3px solid #4b0082;
+      opacity: 1;
+    }
+
+    .heart {
+      font-size: 4rem;
+      opacity: 0;
+      transform: scale(0);
+      transition: opacity 2s ease, transform 2s ease;
+      position: relative;
+      display: inline-block;
+    }
+
+    .heart.show {
+      opacity: 1;
+      transform: scale(1.5);
+      animation: pulse 4s infinite ease-in-out;
+    }
+
+    @keyframes pulse {
+      0%, 100% { transform: scale(1.5); }
+      50% { transform: scale(1.6); }
+    }
+
+    .message {
+      font-size: 2rem;
+      color: #8b0000;
+      display: inline-block;
+      margin-left: 1rem;
+      white-space: nowrap;
+      overflow: hidden;
+      border-right: 2px solid #8b0000;
+      opacity: 1;
+    }
+  </style>
+</head>
+<body>
+  <div class="container" onclick="startSequence()">
+    <div id="typingText" class="typing"></div>
+    <div id="finalContainer" style="margin-top: 2rem; display: none; justify-content: center; align-items: center;">
+      <span id="heart" class="heart">❤️</span>
+      <span id="finalMessage" class="message"></span>
+    </div>
+  </div>
+
+  <script>
+    const typingText = document.getElementById('typingText');
+    const finalContainer = document.getElementById('finalContainer');
+    const heart = document.getElementById('heart');
+    const finalMessage = document.getElementById('finalMessage');
+
+    let interval1, interval2, interval3;
+
+    function startSequence() {
+      typingText.textContent = '';
+      typingText.style.opacity = 1;
+      typingText.style.display = 'block';
+      finalContainer.style.display = 'none';
+      heart.classList.remove('show');
+      finalMessage.textContent = '';
+
+      const text = 'Te amo mucho';
+      let i = 0;
+      interval1 = setInterval(() => {
+        if (i < text.length) {
+          typingText.textContent += text[i];
+          i++;
+        } else {
+          clearInterval(interval1);
+          setTimeout(() => {
+            let j = text.length;
+            interval2 = setInterval(() => {
+              if (j > 0) {
+                typingText.textContent = typingText.textContent.slice(0, --j);
+              } else {
+                clearInterval(interval2);
+                typingText.style.display = 'none';
+                finalContainer.style.display = 'flex';
+                heart.classList.add('show');
+                setTimeout(() => {
+                  const messageText = 'I Teamo corazón de melón';
+                  let k = 0;
+                  interval3 = setInterval(() => {
+                    if (k < messageText.length) {
+                      finalMessage.textContent += messageText[k];
+                      k++;
+                    } else {
+                      clearInterval(interval3);
+                    }
+                  }, 150);
+                }, 2000);
+              }
+            }, 200);
+          }, 1000);
+        }
+      }, 200);
+    }
+
+    window.onload = startSequence;
+  </script>
+</body>
+</html>
